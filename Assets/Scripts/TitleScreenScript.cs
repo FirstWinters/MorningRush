@@ -15,7 +15,7 @@ public class TitleScreenScript : MonoBehaviour {
 	
 	public void StartGame()
 	{
-		Application.LoadLevel(0);
+		Application.LoadLevel(1);
 	}
 	
 	public void QuitGame()

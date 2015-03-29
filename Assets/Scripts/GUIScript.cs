@@ -28,6 +28,9 @@ public class GUIScript : MonoBehaviour {
 	public GameObject MilkFix;
 	public GameObject SugarFix;
 	public GameObject VanillaFix;
+	
+	//panel for the finished gui
+	public GameObject FinishedGUI;
 
 	// Use this for initialization
 	void Start () {
@@ -44,7 +47,18 @@ public class GUIScript : MonoBehaviour {
 		
 		//checking if you need to display the empty clicks
 		CheckEmpties();
+		
+		if(WaveManager.FinishedGUIShow)
+		{
+			WaveManager.FinishedGUIShow = false;
+			ShowFinished();
+		}
 	
+	}
+	
+	void ShowFinished()
+	{
+		FinishedGUI.SetActive(true);
 	}
 	
 	//function to check

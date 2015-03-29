@@ -35,6 +35,8 @@ public class WaveManager : MonoBehaviour {
 	
 	public Transform[] spawnLocations; //array of transforms, which are spawn locations inserted publicly
 	
+	public static bool FinishedGUIShow;
+	
 	// Update is called once per frame
 	void Update () {
 
@@ -132,12 +134,24 @@ public class WaveManager : MonoBehaviour {
 		}
 	}
 	
+	void WhenPlayerFinishes()
+	{
+		print ("YOU WON!"); //do final win
+		//show the end gui
+		FinishedGUIShow = true;
+	}	
+	
+	public void GoToMainMenu()
+	{
+		Application.LoadLevel(0);
+	}
+	
 	IEnumerator EndWave() //end the wave
 	{
 		endWaveRunning = true; //end wave is running
 		if (currentWave == EnemiesEachWave.Length)  //if the wave is 6,
 		{
-			print ("YOU WON!"); //do final win
+			WhenPlayerFinishes();
 		} 
 		else 
 		{
