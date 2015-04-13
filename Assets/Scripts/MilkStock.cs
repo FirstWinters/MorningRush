@@ -11,9 +11,12 @@ public class MilkStock : MonoBehaviour {
 	//variable for allowing the milk to decay afer x seconds
 	private bool waitSpoil;
 	
+	GUIScript myGUI;
 	
 	// Use this for initialization
 	void Start () {
+		myGUI = GameObject.FindGameObjectWithTag("WaveMan").GetComponent<GUIScript>();
+	
 		//subscribe to the breakall
 		WaveManager.myBreakAll += BreakMachine;
 		WaveManager.myFixAll += FixMachine;
@@ -55,13 +58,11 @@ public class MilkStock : MonoBehaviour {
 	IEnumerator StockMilk()
 	{
 		//make sure the player is busy so they can't shoot
-		PlayerScript.busy = true;
+		myGUI.OnBusy(2);
 		//after a few seconds
 		yield return new WaitForSeconds(2f);
 		//stock a full fridge of fresh milk
 		CurrentFreshMilk = MaxFreshMilk;
-		//make sure the player is no longer busy
-		PlayerScript.busy = false;
 	}
 	
 	//function to run the queueing of milk into the current drink

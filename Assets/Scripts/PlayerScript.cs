@@ -19,6 +19,14 @@ public class PlayerScript : MonoBehaviour {
 	public GameObject SugarBagObject;
 	public GameObject VanillaPumpObject;
 	
+	public AudioSource CupThrow;
+	public AudioSource ClickSound;
+	public AudioSource LowClickSound;
+	public AudioSource PourSandSound;
+	public AudioSource ErrorNoise;
+	public AudioSource MilkNoise;
+	public AudioSource EspressoNoise;
+	
 	//variable for checking if the player is currently busy doing something
 	public static bool busy = false;
 	
@@ -26,6 +34,13 @@ public class PlayerScript : MonoBehaviour {
 	public float speed = 5;
 	//variable for the projectile to be shot
 	public GameObject Projectile;
+	
+	GUIScript myGUI;
+	
+	void Start()
+	{
+		myGUI = GameObject.FindGameObjectWithTag("WaveMan").GetComponent<GUIScript>();
+	}
 
 	//event handler
 
@@ -42,6 +57,12 @@ public class PlayerScript : MonoBehaviour {
 	//handles what keys are pressed and what actions to perform
 	void KeyInputs()
 	{
+		if ((Input.GetKeyDown (KeyCode.Mouse0) || Input.GetKeyDown (KeyCode.Q) || Input.GetKeyDown (KeyCode.W) 
+		     || Input.GetKeyDown (KeyCode.E) || Input.GetKeyDown (KeyCode.R) || Input.GetKeyDown (KeyCode.A) 
+		     || Input.GetKeyDown (KeyCode.S) || Input.GetKeyDown (KeyCode.D)) && busy)
+		{
+			ErrorNoise.Play ();
+		}
 		//if you press mouse1 and youre not busy, it will shoot projecitle
 		if (Input.GetKeyDown (KeyCode.Mouse0) && !busy)
 		{
@@ -50,47 +71,55 @@ public class PlayerScript : MonoBehaviour {
 		}
 
 		//if you press the keys to add ingredients, add them
-		if (Input.GetKeyDown (KeyCode.Q))
+		if (Input.GetKeyDown (KeyCode.Q) && !busy)
 		{
+			ClickSound.Play ();
 			//add espresso
 			EspressoMachineObject.SendMessage("TryQueueEspresso");
 		}
-		if (Input.GetKeyDown (KeyCode.W))
+		if (Input.GetKeyDown (KeyCode.W) && !busy)
 		{
+			ClickSound.Play ();
 			//add milk
 			MilkStockObject.SendMessage("TryQueueMilk");
 		}
-		if (Input.GetKeyDown (KeyCode.E))
+		if (Input.GetKeyDown (KeyCode.E) && !busy)
 		{
+			ClickSound.Play ();
 			//add sugar
 			SugarBagObject.SendMessage("TryQueueSugar");
 		}
-		if (Input.GetKeyDown (KeyCode.R))
+		if (Input.GetKeyDown (KeyCode.R) && !busy)
 		{
+			ClickSound.Play ();
 			//add Vanilla
 			VanillaPumpObject.SendMessage("TryQueueVanilla");
 		}
-		if (Input.GetKeyDown (KeyCode.A))
+		if (Input.GetKeyDown (KeyCode.A) && !busy)
 		{
+			EspressoNoise.Play ();
 			//maintain espresso
 			EspressoMachineObject.GetComponent<EspressoMachine>().StartCoroutine("MaintainEspresso");
 		}
-		if (Input.GetKeyDown (KeyCode.S))
+		if (Input.GetKeyDown (KeyCode.S) && !busy)
 		{
+			MilkNoise.Play ();
 			//stock milk
 			MilkStockObject.GetComponent<MilkStock>().StartCoroutine("StockMilk");
 		}
-		if (Input.GetKeyDown(KeyCode.D))
+		if (Input.GetKeyDown(KeyCode.D) && !busy)
 		{
+			PourSandSound.Play ();
 			//make the player busy if they pour sugar
-			busy = true;
+			myGUI.OnBusy();
 			//turn on the sugar pouring
 			SugarBagObject.GetComponent<SugarBag>().PouringSugar = true;
 		}
-		if (Input.GetKeyUp(KeyCode.D))
+		if (Input.GetKeyUp(KeyCode.D) && myGUI.SugarBusy)
 		{
+			PourSandSound.Stop ();
 			//make the player not busy when they stop pouring sugar
-			busy = false;
+			myGUI.OffBusy();
 			//turn off the sugar pouring
 			SugarBagObject.GetComponent<SugarBag>().PouringSugar = false;
 		}
@@ -99,6 +128,8 @@ public class PlayerScript : MonoBehaviour {
 	//function for handling the shooting of the projectile
 	void shootProjectile()
 	{
+		CupThrow.Play ();
+	
 		//instantiate projectile and set as a temp
 		GameObject thing = Instantiate(Projectile,transform.TransformPoint(Vector3.up),Quaternion.identity) as GameObject;
 		//add force to the projectile to makes it moves

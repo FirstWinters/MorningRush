@@ -31,6 +31,14 @@ public class GUIScript : MonoBehaviour {
 	
 	//panel for the finished gui
 	public GameObject FinishedGUI;
+	
+	//panel for the Busy/Timebar
+	public Slider BusySlider;
+	public Text BusyText;
+	bool BusyTimeOn = false;
+	float CurrentBusyTime;
+	
+	public bool SugarBusy = false;
 
 	// Use this for initialization
 	void Start () {
@@ -45,6 +53,11 @@ public class GUIScript : MonoBehaviour {
 		UpdateQueue();
 		UpdateSliders();
 		
+		if(BusyTimeOn)
+		{
+			BusyTime();
+		}
+		
 		//checking if you need to display the empty clicks
 		CheckEmpties();
 		
@@ -54,6 +67,43 @@ public class GUIScript : MonoBehaviour {
 			ShowFinished();
 		}
 	
+	}
+
+	public void OnBusy()
+	{
+		PlayerScript.busy = true;
+		BusyText.text = "POURING";
+		SugarBusy = true;
+	}
+	public void OnBusy(float time)
+	{
+		PlayerScript.busy = true;
+		CurrentBusyTime = 0;
+		BusySlider.maxValue = time;
+		StartCoroutine("BusyTimer", time);
+		BusyTimeOn = true;
+	}
+
+	public void OffBusy()
+	{
+		PlayerScript.busy = false;
+		SugarBusy = false;
+		BusySlider.value = BusySlider.maxValue;
+		BusyTimeOn = false;
+		BusyText.text = "READY";
+	}
+	
+	void BusyTime()
+	{
+		BusySlider.value = CurrentBusyTime;
+		CurrentBusyTime += Time.deltaTime;
+		BusyText.text = BusySlider.value.ToString("F1");
+	}
+	
+	IEnumerator BusyTimer(float time)
+	{
+		yield return new WaitForSeconds(time);
+		OffBusy();
 	}
 	
 	void ShowFinished()

@@ -15,6 +15,9 @@ public class EnemyScript : MonoBehaviour {
 	//variable for actual part of the enemy that we will rotate, as opposed to the text
 	public GameObject EnemyText;
 	
+	public ParticleSystem winBurst;
+	public ParticleSystem loseBurst;
+	
 	//variable for if the enemy is already leaving
 	bool leaving = false;
 
@@ -137,12 +140,13 @@ public class EnemyScript : MonoBehaviour {
 		{
 			//they're good and they can leave the store, with happy as true
 			LeaveTheStore(true);
+			winBurst.Emit (20);
 		}
 		//otherwise
 		else 
 		{
 			//the enemy is not satisfied, do whatever unsatisfied enemies do
-
+			loseBurst.Emit (20);
 		}
 	}
 

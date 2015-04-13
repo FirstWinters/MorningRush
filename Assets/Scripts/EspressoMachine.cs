@@ -8,8 +8,13 @@ public class EspressoMachine : MonoBehaviour {
 	//variable for the current amount maintenance
 	public static int CurrentMaintenance;
 
+	GUIScript myGUI;
+
 	// Use this for initialization
 	void Start () {
+		
+		myGUI = GameObject.FindGameObjectWithTag("WaveMan").GetComponent<GUIScript>();
+		
 		//subscribe to the breakall
 		WaveManager.myBreakAll += BreakMachine;
 		WaveManager.myFixAll += FixMachine;
@@ -37,7 +42,7 @@ public class EspressoMachine : MonoBehaviour {
 	IEnumerator MaintainEspresso()
 	{
 		//make the player busy
-		PlayerScript.busy = true;
+		myGUI.OnBusy(2);
 		//after a few seconds
 		yield return new WaitForSeconds(2f);
 		//add half of maintenance to the espresso
@@ -47,8 +52,6 @@ public class EspressoMachine : MonoBehaviour {
 		{
 			CurrentMaintenance = MaxMaintenance;
 		}
-		//make the player not busy
-		PlayerScript.busy = false;
 	}
 	
 	//function to try to queue espresso into the current drink

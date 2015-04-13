@@ -8,6 +8,8 @@ public class CoffeeCup : MonoBehaviour {
 	public int Milk = 0;
 	public int Sugar = 0;
 	public int Vanilla = 0;
+	
+	public AudioSource hitSound;
 
 	// Use this for initialization
 	void Start () {
@@ -50,6 +52,8 @@ public class CoffeeCup : MonoBehaviour {
 		//if it hits an enemy
 		if (c.tag == "Enemy") 
 		{
+			GetComponent<Collider2D>().enabled = false;
+			hitSound.Play ();
 			//logic to check if it satisfies enemy
 			c.GetComponent<EnemyScript>().CheckDrink(Espresso, Milk, Sugar, Vanilla);
 
@@ -59,6 +63,8 @@ public class CoffeeCup : MonoBehaviour {
 		//if it hits an encounter enemy
 		else if (c.tag == "EncounterEnemy")
 		{
+			GetComponent<Collider2D>().enabled = false;
+			hitSound.Play ();
 			//if its the second encounter enemy
 			if(c.gameObject.name == "EncounterEnemy2")
 			{

@@ -13,6 +13,9 @@ public class EncounterEnemy : MonoBehaviour {
 	public bool paused;
 	public bool done;
 	
+	public ParticleSystem winBurst;
+	public ParticleSystem loseBurst;
+	
 	//speed
 	int speed = 40;
 	
@@ -119,12 +122,14 @@ public class EncounterEnemy : MonoBehaviour {
 		{
 			//they're good and they can leave the store, with happy as true
 			LeaveTheStore();
+			winBurst.Emit (20);
 		}
 		//otherwise
 		else 
 		{
 			//the enemy is not satisfied, do whatever unsatisfied enemies do
 			EncouragementText();
+			loseBurst.Emit (20);
 		}
 	}
 	

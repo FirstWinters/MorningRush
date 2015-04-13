@@ -15,11 +15,18 @@ public class TitleScreenScript : MonoBehaviour {
 	
 	public void StartGame()
 	{
-		Application.LoadLevel(1);
+		StartCoroutine("GoToGame");
 	}
 	
 	public void QuitGame()
 	{
 		Application.Quit ();
+	}
+	
+	IEnumerator GoToGame()
+	{
+		Camera.main.GetComponentInChildren<ScreenFader>().ClearToBlack();
+		yield return new WaitForSeconds(2);
+		Application.LoadLevel(1);
 	}
 }
