@@ -3,14 +3,25 @@ using System.Collections;
 
 public class TitleScreenScript : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+	public AudioSource coffeeMusic;
+	public AudioSource snoopMusic;
 	
-	}
+	public void SwitchMusic()
+	{
 	
-	// Update is called once per frame
-	void Update () {
-	
+		if(coffeeMusic.isPlaying)
+		{
+			coffeeMusic.Pause ();
+			snoopMusic.Play ();
+			GetComponentInChildren<ParticleSystem>().Play ();
+		}
+		else if(snoopMusic.isPlaying)
+		{
+			snoopMusic.Pause ();
+			coffeeMusic.Play ();
+			GetComponentInChildren<ParticleSystem>().Stop ();
+		}
+		
 	}
 	
 	public void StartGame()
