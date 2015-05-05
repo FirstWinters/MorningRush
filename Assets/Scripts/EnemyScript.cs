@@ -51,7 +51,7 @@ public class EnemyScript : MonoBehaviour {
 	void SetText()
 	{
 		//variable for setting the string
-		string bbluvdoll = "Q" + Espresso + " W" + Milk + " E" + Sugar + " R" + Vanilla;
+		string bbluvdoll = Espresso + "  " + Milk + "  " + Sugar + "  " + Vanilla;
 		//Set the text over the enemy to their drink desires
 		EnemyText.GetComponentInChildren<Text> ().text = bbluvdoll;
 

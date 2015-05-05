@@ -32,6 +32,9 @@ public class GUIScript : MonoBehaviour {
 	//panel for the finished gui
 	public GameObject FinishedGUI;
 	
+	//panel for loseing
+	public GameObject LoseGUI;
+	
 	//panel for the Busy/Timebar
 	public Slider BusySlider;
 	public Text BusyText;
@@ -66,7 +69,17 @@ public class GUIScript : MonoBehaviour {
 			WaveManager.FinishedGUIShow = false;
 			ShowFinished();
 		}
+		if(WaveManager.LoseGUIShow)
+		{	
+			WaveManager.LoseGUIShow = false;
+			ShowLose();
+		}
 	
+	}
+	
+	void ShowLose()
+	{
+		LoseGUI.SetActive(true);
 	}
 
 	public void OnBusy()

@@ -36,6 +36,7 @@ public class WaveManager : MonoBehaviour {
 	public Transform[] spawnLocations; //array of transforms, which are spawn locations inserted publicly
 	
 	public static bool FinishedGUIShow;
+	public static bool LoseGUIShow;
 	
 	// Update is called once per frame
 	void Update () {
@@ -64,6 +65,7 @@ public class WaveManager : MonoBehaviour {
 			//do whatever needs to be done for if the player is dead
 			
 			//show the "you died gui"
+			LoseGUIShow = true;
 		}
 		
 	}
